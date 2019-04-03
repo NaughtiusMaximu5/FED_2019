@@ -1,5 +1,5 @@
 <?php
-  $connect    = mysqli_connect("mysql.yaacotu.com", "yourusername", "yourpassword","fed_db_yourname");
+  $connect    = mysqli_connect("mysql.yaacotu.com", "jkingston3", "Jk1036052","fed_db_joe");
   $query      = "SELECT * FROM INV_TYPE ORDER BY TYPE_DESCRIPTION ASC";
 ?>
 <!DOCTYPE html>
@@ -92,6 +92,7 @@
                 <th max-width="15%">Quantity</th>
                 <th max-width="5%" >Edit</th>
                 <th max-width="5%">Delete</th>
+                  <th max-width="5%">Add Qty</th> //added by jpk
               </tr>
             </thead>
           </table>
@@ -210,6 +211,7 @@ $(document).ready(function(){
     $('#additional_info').css('display','none');
     $('#foodtype').val(0);
     $('#description').val('');
+    $('#quantity').val('');
     $('#quantity').val('');
     $('#image_location').val('');
   }
@@ -449,6 +451,48 @@ $(document).ready(function(){
       return false;	
     }
   });
+
+    $(document).on('click', '.QTY', function() {
+        var user_id = $(this).attr("id");
+        $('.fas').css('display','none');
+        $('#description').prop('readonly',true);
+        $('#quantity').prop('readonly',false);
+        $('#image_location').prop('readonly',true);
+        $('#foodtype').prop('disabled',true);
+        $('#valid_upc').text('');
+        $('#action').removeAttr('disabled');
+        $('#additional_info').text('');
+        $('#additional_info').css('display','none');
+        $('#fetch').css('display','none');
+        $.ajax({
+            url:"fetch_single.php",
+            method:"POST",
+            data:{user_id:user_id},
+            dataType:"json",
+            success:function(data) {
+                $('#userModal').modal('show');
+                $('#action').val("QTY");
+                $('#operation').val("Add QTY");
+                $('#itemimage').css('display','block');
+                $('#upc').val(data.upc);
+                $('#description').val(data.description);
+                $('#quantity').val(data.quantity);
+                $('.modal-title').text("QTY");
+                $('#user_id').val(user_id);
+                $('#image_location').val(data.item_image);
+                $('#itemimage').attr('src',data.item_image);
+                $('#foodtype').val(data.food_id);
+                dataTable().ajax.reload();
+                var category = $('#category').val();
+                if(category !=''){
+                    load_data(category);
+                }
+                else{
+                    load_data();
+                }
+            }
+        })
+    });
 	
 });
 </script>

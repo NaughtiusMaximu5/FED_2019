@@ -57,7 +57,7 @@ foreach($result as $row)
 	$sub_array[] = $row["QUANTITY"];
 	$sub_array[] = '<button type="button" name="update" id="'.$row["UPC"].'" class="btn btn-outline-warning update">Update</button>';
 	$sub_array[] = '<button type="button" name="delete" id="'.$row["UPC"].'" class="btn btn-outline-danger delete">Delete</button>';
-    $sub_array[] = '<button type="button" name="QTY" id="'.$row["UPC"].'" class="btn btn-outline-danger update">QTY</button>';//added by jpk
+    $sub_array[] = '<button type="button" name="QTY" id="'.$row["UPC"].'" class="btn btn-outline-warning QTY">QTY</button>';//added by jpk
 	$data[] = $sub_array;
 }
 $output = array(

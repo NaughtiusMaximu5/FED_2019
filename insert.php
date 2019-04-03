@@ -58,6 +58,30 @@ if(isset($_POST["operation"]))
 			echo 'Data Updated';
 		}
 	}
+
+
+	//added by jpk
+    if($_POST["operation"] == "QTY")
+    {
+
+        $statement = $connection->prepare(
+            "UPDATE INVENTORY 
+			SET DESCRIPTION = :description, QUANTITY = :quantity, IMAGE = :image, TYPE_ID = :type_id  WHERE UPC = :UPC
+			");
+        $result = $statement->execute(
+            array(
+                ':description'	=>	$_POST["description"],
+                ':quantity'	    =>	$_POST["quantity"],
+                ':image'		=>	$_POST["image_location"],
+                ':UPC'			=>	$_POST["user_id"],
+                ':type_id'      =>  $_POST["foodtype"]
+            )
+        );
+        if(!empty($result))
+        {
+            echo 'QTY Updated';
+        }
+    }
 }
 
 ?>
